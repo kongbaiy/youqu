@@ -1,0 +1,8 @@
+{
+    "editor.fontFamily": "Fira Code",
+    "prettier.tabWidth": 4,
+    "editor.tabSize": 4,
+    "editor.indentSize": "tabSize",
+    "editor.formatOnSave": false,
+    "notebook.formatOnSave.enabled": true
+}
