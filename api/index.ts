@@ -1,17 +1,22 @@
-interface IParams {
+import FetchContext  from './fetch';
+import api from './api';
+
+interface IDefaultObject {
     [key: string]: any
 }
 
-const HOST = 'http://192.168.1.81:8098';
+const host = 'http://192.168.1.81:8098';
+const apiObject: IDefaultObject = api;
+const f:IDefaultObject = new FetchContext();
+let newApi:IDefaultObject = {};
 
-export default {
-    // 注册
-    register: async (params: any) => await fetch(HOST + '/phone/send', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(params)
-    })
+const transform = () => {
+    for (let i in apiObject) {
+        const apiValue = apiObject[i]?.split(/\s/);
+        const method: string = apiValue[0];
+        newApi[i] = (options: Request) => f[method]( host+ apiValue[1], options)
+    }
 }
+transform();
+
+export default newApi

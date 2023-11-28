@@ -20,32 +20,34 @@ interface IRegisterParams {
 
 const Index = () => {
     const [form, setForm] = useState<IRegisterParams | any>({});
+    const rules: any = {
+        phone: {
+            message: '请输入手机号',
+            pattern: /\d{11}/
+        }
+    }
 
     const handlePress = async () => {
-        const result = await api.getCode({
-            phone: 13350850539,
-            ty: 1
-        });
+       
     };
   
     return (
-        <CusForm setForm={setForm}>
-            <Text style={styles.title}>登录</Text>
+        <CusForm setForm={setForm} rules={rules}>
+            <Text style={styles.title}>注册</Text>
             <CusField name="phone">
-                <CusInput.Phone placeholder="请输入账号" />
-            </CusField>
-            <CusField name="pwd">
-                <CusInput.Password placeholder="请输入账号" />
+                <CusInput.Phone placeholder="请输入手机号" />
             </CusField>
             <CusField name="code">
-                <CusInput.Phone placeholder="验证码" />
+                <CusInput.Code placeholder="验证码" />
             </CusField>
 
             <CusButtonGroup style={styles.buttonGroup}>
                 <CusButton
-                    title="登录"
-                    width={pxToDp(400)}
-                    round={50}
+                    title="提交"
+                    style={{ 
+                        width: pxToDp(400), 
+                        borderRadius: 50,
+                    }}
                     onPress={handlePress}
                 />
             </CusButtonGroup>

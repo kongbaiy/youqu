@@ -1,47 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
-    TouchableOpacity, 
+    TouchableOpacity,
+    TouchableOpacityProps,
     View, 
     Text, 
     StyleSheet, 
-    TouchableOpacityProps 
+    ActivityIndicator
 } from 'react-native';
 
 import pxToDp from '../../utils/pxToDp';
 import { pickObjectAttribute } from '../../utils/index';
 
-interface ITouchButtonProps extends TouchableOpacityProps {
-    title: String;
-    disabled?: boolean;
-    width?: number;
-    height?: number;
-    round?: boolean | number;
+interface ITouchButtonStyle {
+    [key: string]: any
 }
 
-const getTouchButtonStyle = (
-    props: Pick<ITouchButtonProps, 'width' | 'height' | 'round'>
-) => {
-    const { width, height, round } = props;
-    const style: any = {
-        width,
-        height,
-    };
-
-    if (round) style.borderRadius = typeof round === 'boolean' ? 8 : round;
-
-    return style;
-};
+interface ITouchButtonProps extends TouchableOpacityProps {
+   title: string;
+   style?: ITouchButtonStyle;
+   loading?: boolean;
+}
 
 function TouchButton(props: ITouchButtonProps): JSX.Element {
-    const TouchableOpacityProps = pickObjectAttribute(
-        props, 
-        ['onPress', 'onPressIn', 'onPressOut', 'onLongPress', 'disabled']
-    );
+    const [touchableOpacityProps, setTouchableOpacityProps] = useState<any>();
+    const [viewStyle, setViewStyle] = useState<any>();
+    const [textStyle, setTextStyle] = useState<any>();
+    
+    useEffect(() => {
+        setTouchableOpacityProps(
+            pickObjectAttribute(
+                props, 
+                ['onPress', 'onPressIn', 'onPressOut', 'onLongPress', 'disabled']
+            )
+        );
+        setViewStyle(
+            pickObjectAttribute(
+                props.style, 
+                ['width', 'height', 'borderRadius']
+            )
+        );
+        setTextStyle(
+            pickObjectAttribute(
+                props.style, 
+                ['fontSize', 'fontWeight', 'color']
+            )
+        );
+    }, [props.style]);
     
     return (
-        <TouchableOpacity {...TouchableOpacityProps}>
-            <View style={[styles.button, getTouchButtonStyle(props)]}>
-                <Text style={styles.buttonText}>{props.title}</Text>
+        <TouchableOpacity {...touchableOpacityProps}>
+            <View style={[styles.button, viewStyle]}>
+                
+                {
+                    props.loading ? 
+                    <ActivityIndicator /> : 
+                    <Text style={[styles.buttonText, textStyle]}>{props.title}</Text>
+                }
             </View>
         </TouchableOpacity>
     );
@@ -49,12 +63,12 @@ function TouchButton(props: ITouchButtonProps): JSX.Element {
 
 const styles = StyleSheet.create({
     button: {
+        display: 'flex',
+        flexDirection: 'row',
         marginLeft: 'auto',
         marginRight: 'auto',
-        paddingTop: pxToDp(8),
-        paddingBottom: pxToDp(8),
+        padding: pxToDp(8),
         backgroundColor: 'blue',
-        flexDirection: 'column',
         justifyContent: 'center',
     },
     buttonText: {
@@ -62,6 +76,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         lineHeight: 26,
         color: '#fff',
+        
     },
 });
 
