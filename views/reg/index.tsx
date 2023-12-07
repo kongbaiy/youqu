@@ -1,5 +1,5 @@
+import { Text, StyleSheet, TextInput } from 'react-native';
 import React, { useState } from 'react';
-import { Text, StyleSheet } from 'react-native';
 
 import {
     CusForm,
@@ -32,26 +32,8 @@ const Index = () => {
     };
   
     return (
-        <CusForm setForm={setForm} rules={rules}>
-            <Text style={styles.title}>注册</Text>
-            <CusField name="phone">
-                <CusInput.Phone placeholder="请输入手机号" />
-            </CusField>
-            <CusField name="code">
-                <CusInput.Code placeholder="验证码" />
-            </CusField>
+        <Text style={styles.title}>注册</Text>
 
-            <CusButtonGroup style={styles.buttonGroup}>
-                <CusButton
-                    title="提交"
-                    style={{ 
-                        width: pxToDp(400), 
-                        borderRadius: 50,
-                    }}
-                    onPress={handlePress}
-                />
-            </CusButtonGroup>
-        </CusForm>
     );
 };
 

@@ -6,12 +6,9 @@ import pxToDp from '../../../utils/pxToDp';
 
 const styles = StyleSheet.create({
     commonInput: {
-        ...commontStyle.MarLR,
         paddingVertical: 0,
-        marginTop: pxToDp(40),
         paddingLeft: pxToDp(14),
         paddingRight: pxToDp(14),
-        width: pxToDp(400),
         height: pxToDp(60),
         fontSize: 14,
         fontWeight: '400',
@@ -24,11 +21,8 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        ...commontStyle.MarLR,
-        marginTop: pxToDp(40),
         paddingLeft: pxToDp(14),
-        width: pxToDp(400),
-        borderWidth: 1,
+        borderWidth: 0.5,
         borderStyle: 'solid',
         borderColor: '#ddd',
         borderRadius: 8,

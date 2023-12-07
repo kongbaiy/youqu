@@ -1,17 +1,25 @@
-import React, { useEffect, useRef, useState } from 'react';
 import { View, TextInput, TextInputProps } from 'react-native';
+import React, { useEffect, useState, useContext } from 'react';
 import styles from './styles';
 
+import { omitObjectAttribute } from '../../utils/index';
+import { FormContext, IFormData } from '../form';
+import { FieldContext } from '../field';
 import Button from '../button';
 
 interface IProps extends TextInputProps {
-
+    delay?: number
 } 
 
 let interval: any;
+const defaultDelay: number = 60;
 
 const Index = (props: IProps) => {
-   let [time, setTime] = useState(6);
+    const { formData, setFormData } = useContext<IFormData>(FormContext);
+    const { name, trigger } = useContext<IFormData>(FieldContext);
+    const newProps = omitObjectAttribute(props, ['keyboardType', 'maxLength', 'onChangeText']);
+    const delay = props.delay || defaultDelay;
+    let [time, setTime] = useState<number>(delay);
 
     useEffect(() => {
         return () => {
@@ -22,6 +30,15 @@ const Index = (props: IProps) => {
     const handlePress = () => {
         if (!interval) startInterval();
     }
+
+    const handleChangeText = (value: string | number) => {
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+        trigger(value, name, formData, 'code');
+    }
+
     
     const startInterval = () => {
         interval = setInterval(() => {
@@ -29,7 +46,7 @@ const Index = (props: IProps) => {
                 time -= 1;
                 setTime(time);
             } else {
-                setTime(6);
+                setTime(delay);
                 clearInterval(interval);
                 interval = null;
             }
@@ -39,19 +56,20 @@ const Index = (props: IProps) => {
     return (
         <View style={styles.code}>
             <TextInput 
-                {...props} 
+                {...newProps} 
                 style={styles.codeInput} 
                 keyboardType="numeric"
                 maxLength={6} 
+                onChangeText={handleChangeText}
             />
             <Button 
-                title={time === 6 ? '获取验证吗' : String(time + '秒')}
+                title={time === delay ? '获取验证吗' : String(time + '秒')}
                 style={{
                     fontSize: 14,
                     width: 100
                 }} 
                 onPress={handlePress}
-                disabled={time < 6 }
+                disabled={time < delay }
             />
         </View>
     )

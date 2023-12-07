@@ -45,3 +45,14 @@ export const omitObjectAttribute = (obj = {}, keys:Array<string> = []) => {
     }
     return newObj
 }
+
+export const debounce = () => {
+    let timeout: any = null;
+
+    return (callback: Function, delay: number = 600) => {
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            callback(timeout);
+        }, delay);
+    }
+}

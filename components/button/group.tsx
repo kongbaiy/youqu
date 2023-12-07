@@ -1,5 +1,5 @@
-import React, { ReactComponentElement } from 'react';
 import { StyleSheet, View } from 'react-native';
+import React, { ReactComponentElement } from 'react';
 
 interface IProps {
     children: ReactComponentElement<any>,

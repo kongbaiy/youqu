@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import { 
     TouchableOpacity,
     TouchableOpacityProps,
@@ -7,6 +6,8 @@ import {
     StyleSheet, 
     ActivityIndicator
 } from 'react-native';
+import React, { useEffect, useState } from 'react';
+
 
 import pxToDp from '../../utils/pxToDp';
 import { pickObjectAttribute } from '../../utils/index';
@@ -54,7 +55,11 @@ function TouchButton(props: ITouchButtonProps): JSX.Element {
                 {
                     props.loading ? 
                     <ActivityIndicator /> : 
-                    <Text style={[styles.buttonText, textStyle]}>{props.title}</Text>
+                    <Text 
+                        style={[styles.buttonText, textStyle]}
+                    >
+                        {props.title}
+                    </Text>
                 }
             </View>
         </TouchableOpacity>
